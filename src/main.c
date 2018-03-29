@@ -11,6 +11,8 @@
 
 #include "utils.h"
 
+#include "../config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -20,6 +22,26 @@
 #define Kilobytes(n) n*1024l
 #define Megabytes(n) Kilobytes(n)*1024l
 #define Gigabytes(n) Megabytes(n)*1024l
+
+void
+help() {
+        fprintf(stdout,
+                "   " PACKAGE_STRING "\n"
+                "   Usage: " PACKAGE " <command> [<args>]\n\n"
+                "   About workspaces:\n"
+                "   deck checks in several places to know which workspace to work on\n"
+                "     1. Workspace specified in -w flag\n"
+                "     2. If deck is run inside a workspace mountpoint that workspace is used\n"
+                "     3. default_workspace config option in the config.toml\n"
+                "     As an additional rule, if you only have one workspace in the config.toml file that one is used\n\n"
+                "   COMMANDS\n"
+                "     new      - create a new project\n"
+                "     ls       - list projects\n"
+                "     go       - go to project\n"
+                "     rebuild  - rebuild the whole deck system\n\n"
+                "   For bug reports send an email to " PACKAGE_BUGREPORT "\n\n"
+                );
+}
 
 FILE*
 open_config_file() {
@@ -53,9 +75,13 @@ find_current_workspace(deck_config_t *config) {
 
 int
 main(int argc, char *argv[]) {
+        help();
+
         // We don't want to run as root, ever.
         if((getuid() == 0) || (geteuid() == 0)) {
-                fprintf(stderr, "Running deck as root is asking for problems. Aborting.\n");
+                print_red();
+                fprintf(stderr, "    Running deck as root is asking for problems. Aborting.\n");
+                print_white();
                 exit(1);
         }
 
@@ -83,8 +109,11 @@ main(int argc, char *argv[]) {
         //
         // In the case there is only one workspace it will just select that one too
         if(!find_current_workspace(&config)) {
+                print_red();
+                fprintf(stderr, "    Error: ");
+                print_white();
                 fprintf(stderr, "Don't know which workspace to use\n"
-                        "Either call deck from inside a workspace dir, "
+                        "    Either call deck from inside a workspace dir, "
                         "specify the workspace using the -w flag or "
                         "specify a default_workspace in the config.toml file\n");
                 exit(1);

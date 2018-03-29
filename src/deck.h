@@ -72,7 +72,6 @@ void new_project(deck_data_t *d);
 // Parse config from config file and fill the config structure
 void deck_parse_config(FILE *f, deck_config_t *c);
 
-
 // Parse workspace description file
 void deck_parse_deck_file(FILE *f, workspace_t *w);
 

@@ -11,6 +11,9 @@ depcomp
 install-sh
 Makefile
 Makefile.in
+stamp-*
+.deps
+config.h
 missing
 *.o
 deck

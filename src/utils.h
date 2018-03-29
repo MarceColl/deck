@@ -30,6 +30,18 @@ typedef uint8_t bool;
 #define TRUE 1
 #define FALSE 0
 
+inline
+void
+print_red() {
+        fprintf(stderr, "\e[0;31m");
+}
+
+inline
+void
+print_white() {
+        fprintf(stderr, "\e[1;37m");
+}
+
 // TODO(Marce): Join two paths and return the joined path
 char* path_join(const char *left, const char *right);
 
