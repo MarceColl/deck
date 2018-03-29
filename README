@@ -1,0 +1,13 @@
+# DECK
+
+Deck is a project manager that allows creating, tagging and rebuilding the whole
+workspace based on a single file. It uses FUSE in order to mount the workspaces
+and manage all the tagging.
+
+## Build
+
+   autoreconf --install
+   ./configure && make
+   make check
+   sudo make install
+
